@@ -9,6 +9,38 @@ const cards = new Map(
 const inviteUrl = document.querySelector('link[rel="canonical"]').href;
 const childcareUrl = document.getElementById("Register").href;
 
+const hero = document.querySelector(".hero");
+const heroTitle = document.getElementById("hero-title");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+let parallaxFrame = 0;
+
+function updateParallax() {
+  parallaxFrame = 0;
+  const bounds = hero.getBoundingClientRect();
+  const progress = Math.max(0, Math.min(1, -bounds.top / bounds.height));
+  heroTitle.style.setProperty("--parallax-offset", `${progress * 14}px`);
+}
+
+function scheduleParallax() {
+  if (!parallaxFrame) parallaxFrame = requestAnimationFrame(updateParallax);
+}
+
+function configureParallax() {
+  window.removeEventListener("scroll", scheduleParallax);
+  window.removeEventListener("resize", scheduleParallax);
+  cancelAnimationFrame(parallaxFrame);
+  parallaxFrame = 0;
+  heroTitle.style.removeProperty("--parallax-offset");
+  if (!reducedMotion.matches) {
+    window.addEventListener("scroll", scheduleParallax, { passive: true });
+    window.addEventListener("resize", scheduleParallax);
+    scheduleParallax();
+  }
+}
+
+reducedMotion.addEventListener("change", configureParallax);
+configureParallax();
+
 function choosePerformance(id) {
   const card = cards.get(id);
   if (!card) throw new Error(`Unknown performance: ${id}`);

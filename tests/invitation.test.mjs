@@ -63,11 +63,14 @@ test("calendar identifiers are unique", async () => {
   assert.equal(new Set(uids).size, 3);
 });
 
-test("mobile artwork stays below 350 KB and HTML contains no embedded raster data", async () => {
-  assert.ok((await stat(new URL("assets/invitation.webp", root))).size <= 350_000);
+test("story artwork stays below 150 KB and replaces the combined invitation", async () => {
+  assert.ok((await stat(new URL("assets/subhero.webp", root))).size <= 150_000);
   assert.ok(Buffer.byteLength(html) < 25_000);
   assert.ok(!html.includes("data:image/"));
-  const image = await readFile(new URL("assets/invitation.webp", root));
+  assert.ok(!html.includes("assets/invitation.webp"));
+  assert.ok(html.indexOf('class="locations"') < html.indexOf('class="subhero"'));
+  assert.ok(html.indexOf('class="subhero"') < html.indexOf('id="performances"'));
+  const image = await readFile(new URL("assets/subhero.webp", root));
   assert.equal(image.toString("ascii", 8, 12), "WEBP");
 });
 

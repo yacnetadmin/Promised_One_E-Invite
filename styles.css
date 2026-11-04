@@ -35,8 +35,10 @@ h3 { font-size: 1.05rem; line-height: 1.4; }
 .hero h2 { position: absolute; left: 36%; top: 55%; width: 24%; color: #fffaf1; text-align: center; font-size: clamp(.9rem, 3.2cqw, 1.8rem); line-height: 1.18; text-shadow: 0 2px 4px #171e39, 0 0 12px #171e39; }
 .schedule-overview { padding: 16px 16px 10px; text-align: center; background: var(--night); color: var(--paper); }
 .locations { display: inline-block; padding: 7px 15px; border: 1px solid #8e8691; border-radius: 30px; color: var(--gold); font-size: .85rem; }
-.schedule-summary { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 24px; margin-top: 6px; }
-.schedule-summary a { display: inline-flex; align-items: center; min-height: 44px; font-size: .85rem; color: var(--paper); }
+.subhero { max-width: 840px; margin: auto; background: #505e94; }
+.subhero img { display: block; width: 100%; height: auto; }
+.subhero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 0 20px 20px; }
+.subhero-actions .button { flex: 1 1 140px; }
 .invitation-layout { padding: 25px 16px 0; }
 .section-intro { margin-top: 12px; }
 .timezone, .duration-note { color: var(--muted); font-size: .8rem; }
@@ -52,22 +54,9 @@ h3 { font-size: 1.05rem; line-height: 1.4; }
 .card-actions { display: flex; flex-wrap: wrap; gap: 0 18px; margin-top: 8px; }
 .card-actions a { display: inline-flex; align-items: center; min-height: 44px; font-size: .85rem; font-weight: 650; gap: 5px; }
 .duration-note { margin: 14px 0 26px; }
-.artwork { margin: 0; }
-.artwork-image { position: relative; }
-.artwork img { display: block; width: 100%; height: auto; border-radius: 12px; }
-.artwork figcaption { margin-top: 9px; color: var(--muted); font-size: .75rem; }
-.artwork-action { position: absolute; width: 12.17%; min-width: 44px; aspect-ratio: 1; min-height: 44px; border-radius: 8px; }
-/* Match the three icon positions in the current 528 x 816 SVG. */
-.artwork-register { left: 8.22%; top: 89.82%; }
-.artwork-calendar { left: 24.96%; top: 89.93%; }
-.artwork-directions { left: 42.26%; top: 89.69%; }
-.artwork-action:hover { background: #fff3; }
-.story-copy { padding: 26px 4px; }
-.story-copy > p:not(.eyebrow) { margin-top: 15px; }
 .button { display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-height: 48px; padding: 11px 17px; border: 1px solid var(--line); border-radius: 8px; background: var(--gold); color: var(--ink); font-size: .9rem; font-weight: 650; text-decoration: none; text-align: center; line-height: 1.4; }
 .button:hover { filter: brightness(.96); }
 .button.primary { background: var(--night); border-color: var(--night); color: var(--paper); }
-.childcare { margin-top: 22px; }
 .share-section { margin: 0 16px; padding: 28px 4px; text-align: center; border-top: 1px solid var(--line); }
 .share-section > p:not(.eyebrow) { margin-top: 12px; }
 #share-button { margin-top: 20px; }
@@ -105,9 +94,9 @@ fieldset { margin: 20px 0 0; padding: 0; border: 0; }
 
 @media (min-width: 760px) {
   .welcome { padding-inline: 36px; }
-  .invitation-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 32px; padding: 36px 36px 0; }
-  .story { grid-column: 1; grid-row: 1; }
-  .performances { grid-column: 2; grid-row: 1; }
+  .invitation-layout { padding: 36px 36px 0; }
+  .performances { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .performances > :not(.performance) { grid-column: 1 / -1; }
   .performance { padding: 20px 20px 10px; }
   .share-section { margin-inline: 36px; }
   .show-time { font-size: 2rem; }
@@ -115,4 +104,5 @@ fieldset { margin: 20px 0 0; padding: 0; border: 0; }
 
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
+  .hero h2 { transform: translateY(var(--parallax-offset, 0px)); }
 }
