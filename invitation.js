@@ -7,7 +7,7 @@ const cards = new Map(
   Array.from(document.querySelectorAll(".performance")).map(card => [card.id, card])
 );
 const inviteUrl = document.querySelector('link[rel="canonical"]').href;
-const childcareUrl = document.getElementById("Register").href;
+const childcareUrl = "https://yafc.churchcenter.com/people/forms/1358593";
 
 const hero = document.querySelector(".hero");
 const heroTitle = document.getElementById("hero-title");
@@ -78,18 +78,14 @@ function openDirections(event) {
   document.getElementById("directions-title").focus();
 }
 
-document.querySelectorAll("#calendar-button, #Calendar").forEach(link => {
-  link.addEventListener("click", event => openCalendar(event));
-});
+document.getElementById("calendar-button").addEventListener("click", event => openCalendar(event));
 document.querySelectorAll(".save-performance").forEach(link => {
   link.addEventListener("click", event => openCalendar(event, link.dataset.event));
 });
 document.getElementById("calendar-choices").addEventListener("change", event => {
   if (event.target instanceof HTMLInputElement) choosePerformance(event.target.value);
 });
-document.querySelectorAll("#directions-button, #Directions").forEach(link => {
-  link.addEventListener("click", openDirections);
-});
+document.getElementById("directions-button").addEventListener("click", openDirections);
 document.querySelectorAll("dialog").forEach(dialog => {
   dialog.querySelector(".close").addEventListener("click", () => dialog.close());
   dialog.addEventListener("keydown", event => {

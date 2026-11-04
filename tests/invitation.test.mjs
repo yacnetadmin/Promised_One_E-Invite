@@ -68,8 +68,10 @@ test("story artwork stays below 150 KB and replaces the combined invitation", as
   assert.ok(Buffer.byteLength(html) < 25_000);
   assert.ok(!html.includes("data:image/"));
   assert.ok(!html.includes("assets/invitation.webp"));
-  assert.ok(html.indexOf('class="locations"') < html.indexOf('class="subhero"'));
-  assert.ok(html.indexOf('class="subhero"') < html.indexOf('id="performances"'));
+  assert.match(html, /<section class="hero"[\s\S]*?<\/section>\s*<section class="subhero"/);
+  assert.ok(html.indexOf('class="subhero"') < html.indexOf('class="locations"'));
+  assert.ok(html.indexOf('class="locations"') < html.indexOf('id="performances"'));
+  assert.ok(!html.includes("subhero-actions"));
   const image = await readFile(new URL("assets/subhero.webp", root));
   assert.equal(image.toString("ascii", 8, 12), "WEBP");
 });
@@ -82,7 +84,7 @@ test("published link, social preview, and local resources resolve", async () => 
   for (const path of ["invitation.js", "styles.css", "assets/preview.jpg"]) {
     assert.ok((await stat(new URL(path, root))).size > 0);
   }
-  for (const id of ["Calendar", "Directions", "Register"]) {
+  for (const id of ["calendar-button", "directions-button"]) {
     assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1);
   }
 });

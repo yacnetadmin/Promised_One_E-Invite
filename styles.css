@@ -37,8 +37,6 @@ h3 { font-size: 1.05rem; line-height: 1.4; }
 .locations { display: inline-block; padding: 7px 15px; border: 1px solid #8e8691; border-radius: 30px; color: var(--gold); font-size: .85rem; }
 .subhero { max-width: 840px; margin: auto; background: #505e94; }
 .subhero img { display: block; width: 100%; height: auto; }
-.subhero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 0 20px 20px; }
-.subhero-actions .button { flex: 1 1 140px; }
 .invitation-layout { padding: 25px 16px 0; }
 .section-intro { margin-top: 12px; }
 .timezone, .duration-note { color: var(--muted); font-size: .8rem; }
