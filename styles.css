@@ -73,18 +73,10 @@ dialog > p:not(.eyebrow) { margin-top: 14px; font-size: .9rem; }
 body:has(dialog[open]) { overflow: hidden; }
 .close { position: absolute; top: 10px; right: 10px; width: 44px; height: 44px; background: transparent; border: 0; border-radius: 50%; color: var(--ink); font-size: 1.8rem; line-height: 1; }
 .close:hover { background: #eee5d7; }
-fieldset { margin: 20px 0 0; padding: 0; border: 0; }
-.event-choice { display: flex; align-items: center; gap: 12px; padding: 15px 12px; margin-top: 9px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; }
-.event-choice:has(:checked) { border-color: var(--night); background: #edeaf2; }
-.event-choice input { width: 20px; height: 20px; flex-shrink: 0; accent-color: var(--night); }
-.event-choice strong { display: block; font-size: .9rem; }
-.event-choice small { display: block; margin-top: 5px; color: var(--muted); font-size: .78rem; }
 .selection-summary { margin: 20px 0 12px; font-size: .9rem; font-weight: 650; }
 .calendar-links { display: flex; flex-wrap: wrap; gap: 8px; }
 .calendar-links .button { flex: 1 1 190px; }
-.direction-choice { border-top: 1px solid var(--line); margin-top: 20px; padding-top: 20px; }
-.direction-choice > p { margin: 8px 0 14px; font-size: .9rem; }
-.map-options a { display: inline-flex; align-items: center; min-height: 44px; }
+#selected-address { margin-bottom: 16px; }
 .no-script-panel { padding: 25px; max-width: 1120px; margin: auto; background: var(--paper); }
 .no-script-panel a { display: inline-block; padding-block: 12px; }
 .sr-only, .skip-link:not(:focus) { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

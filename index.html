@@ -105,48 +105,24 @@
   </main>
 
   <nav class="action-bar" aria-label="Invitation actions">
-    <a class="button primary" href="#calendar" id="calendar-button">Add to calendar</a>
-    <a class="button" href="#directions" id="directions-button">Directions</a>
+    <a class="button primary" href="#performances" id="performances-button">Choose a performance</a>
+    <a class="button" href="#share-title" id="share-bar-button">Share invitation</a>
   </nav>
 
   <dialog id="calendar-dialog" aria-labelledby="calendar-title" aria-describedby="calendar-note">
     <button class="close" type="button" aria-label="Close calendar choices">&times;</button>
     <p class="eyebrow">Save the date</p>
-    <h2 id="calendar-title" tabindex="-1">Which performance?</h2>
-    <p id="calendar-note">Choose one of the three performances. All times are Eastern, in 2026.</p>
-    <fieldset id="calendar-choices">
-      <legend class="sr-only">Choose a performance</legend>
-      <label class="event-choice"><input type="radio" name="performance" value="york-afternoon"><span><strong>York &middot; December 5 &middot; 2 PM</strong><small>501 Rathton Road, York, PA 17402</small></span></label>
-      <label class="event-choice"><input type="radio" name="performance" value="york-evening"><span><strong>York &middot; December 5 &middot; 7 PM</strong><small>501 Rathton Road, York, PA 17402</small></span></label>
-      <label class="event-choice"><input type="radio" name="performance" value="spring-grove"><span><strong>Spring Grove &middot; December 12 &middot; 3 PM</strong><small>1472 Roths Church Road, Spring Grove, PA 17362</small></span></label>
-    </fieldset>
-    <div id="calendar-links" hidden>
+    <h2 id="calendar-title" tabindex="-1">Add to your calendar</h2>
+    <p id="calendar-note">Choose your calendar app. All times are Eastern, in 2026.</p>
+    <div id="calendar-links">
       <p id="selected-performance" class="selection-summary"></p>
+      <p id="selected-address" class="small"></p>
       <div class="calendar-links">
         <a id="google-calendar" class="button primary" target="_blank" rel="noopener noreferrer">Google Calendar</a>
         <a id="ics-calendar" class="button">Apple / Outlook (.ics)</a>
       </div>
       <p class="small">Apple Calendar or Outlook: open the downloaded .ics file to add this performance. Your device may ask which calendar app to use.</p>
     </div>
-  </dialog>
-
-  <dialog id="directions-dialog" aria-labelledby="directions-title">
-    <button class="close" type="button" aria-label="Close location choices">&times;</button>
-    <p class="eyebrow">We'll see you there</p>
-    <h2 id="directions-title" tabindex="-1">Which location?</h2>
-    <section class="direction-choice">
-      <h3>York</h3>
-      <p>December 5 &middot; 2 PM &amp; 7 PM<br>501 Rathton Road, York, PA 17402</p>
-      <a class="button primary device-directions" data-location="york" href="https://www.google.com/maps/dir/?api=1&amp;destination=501+Rathton+Road%2C+York%2C+PA+17402&amp;travelmode=driving">Directions to York</a>
-      <p class="small map-options">Or choose <a class="apple-map" data-location="york" href="https://maps.apple.com/?daddr=501+Rathton+Road%2C+York%2C+PA+17402&amp;dirflg=d">Apple Maps</a> or <a href="https://www.google.com/maps/dir/?api=1&amp;destination=501+Rathton+Road%2C+York%2C+PA+17402&amp;travelmode=driving">Google Maps</a>.</p>
-    </section>
-    <section class="direction-choice">
-      <h3>Spring Grove</h3>
-      <p>December 12 &middot; 3 PM<br>1472 Roths Church Road, Spring Grove, PA 17362</p>
-      <a class="button primary device-directions" data-location="spring-grove" href="https://www.google.com/maps/dir/?api=1&amp;destination=1472+Roths+Church+Road%2C+Spring+Grove%2C+PA+17362&amp;travelmode=driving">Directions to Spring Grove</a>
-      <p class="small map-options">Or choose <a class="apple-map" data-location="spring-grove" href="https://maps.apple.com/?daddr=1472+Roths+Church+Road%2C+Spring+Grove%2C+PA+17362&amp;dirflg=d">Apple Maps</a> or <a href="https://www.google.com/maps/dir/?api=1&amp;destination=1472+Roths+Church+Road%2C+Spring+Grove%2C+PA+17362&amp;travelmode=driving">Google Maps</a>.</p>
-    </section>
-    <p class="small">Your map app can use your current location as the starting point.</p>
   </dialog>
 
   <noscript>

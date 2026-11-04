@@ -1,8 +1,6 @@
 "use strict";
 
 const calendarDialog = document.getElementById("calendar-dialog");
-const directionsDialog = document.getElementById("directions-dialog");
-const calendarLinks = document.getElementById("calendar-links");
 const cards = new Map(
   Array.from(document.querySelectorAll(".performance")).map(card => [card.id, card])
 );
@@ -58,34 +56,19 @@ function choosePerformance(id) {
   document.getElementById("google-calendar").href = `https://calendar.google.com/calendar/render?${query}`;
   document.getElementById("ics-calendar").href = card.dataset.calendar;
   document.getElementById("selected-performance").textContent = `${venue} - ${time}`;
-  calendarLinks.hidden = false;
+  document.getElementById("selected-address").textContent = address;
 }
 
 function openCalendar(event, selectedId) {
   if (event) event.preventDefault();
-  document.querySelectorAll('input[name="performance"]').forEach(radio => {
-    radio.checked = radio.value === selectedId;
-  });
-  calendarLinks.hidden = !selectedId;
-  if (selectedId) choosePerformance(selectedId);
+  choosePerformance(selectedId);
   if (!calendarDialog.open) calendarDialog.showModal();
   document.getElementById("calendar-title").focus();
 }
 
-function openDirections(event) {
-  if (event) event.preventDefault();
-  if (!directionsDialog.open) directionsDialog.showModal();
-  document.getElementById("directions-title").focus();
-}
-
-document.getElementById("calendar-button").addEventListener("click", event => openCalendar(event));
 document.querySelectorAll(".save-performance").forEach(link => {
   link.addEventListener("click", event => openCalendar(event, link.dataset.event));
 });
-document.getElementById("calendar-choices").addEventListener("change", event => {
-  if (event.target instanceof HTMLInputElement) choosePerformance(event.target.value);
-});
-document.getElementById("directions-button").addEventListener("click", openDirections);
 document.querySelectorAll("dialog").forEach(dialog => {
   dialog.querySelector(".close").addEventListener("click", () => dialog.close());
   dialog.addEventListener("keydown", event => {
@@ -105,17 +88,15 @@ document.querySelectorAll("dialog").forEach(dialog => {
 const appleDevice = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
 if (appleDevice) {
   document.querySelectorAll(".device-directions").forEach(link => {
-    link.href = document.querySelector(`.apple-map[data-location="${link.dataset.location}"]`).href;
+    const destination = new URL(link.href).searchParams.get("destination");
+    link.href = `https://maps.apple.com/?${new URLSearchParams({ daddr: destination, dirflg: "d" })}`;
   });
 }
 
 function handleHash() {
-  if (location.hash === "#calendar") {
-    if (directionsDialog.open) directionsDialog.close();
-    openCalendar();
-  } else if (location.hash === "#directions") {
+  if (location.hash === "#calendar" || location.hash === "#directions") {
     if (calendarDialog.open) calendarDialog.close();
-    openDirections();
+    document.getElementById("performances").scrollIntoView();
   }
 }
 window.addEventListener("hashchange", handleHash);
@@ -132,9 +113,11 @@ function showShareFallback(message) {
 }
 
 shareButton.hidden = false;
-shareButton.addEventListener("click", async () => {
+async function shareInvitation(event) {
+  event.preventDefault();
   if (!navigator.share) {
     showShareFallback("Copy the invitation link below and paste it into a text message.");
+    document.getElementById("share-fallback").scrollIntoView({ block: "center" });
     return;
   }
   try {
@@ -149,7 +132,10 @@ shareButton.addEventListener("click", async () => {
     console.error("Could not open the share sheet:", error);
     showShareFallback("Sharing couldn't open on this device. Copy the invitation link below instead.");
   }
-});
+}
+
+shareButton.addEventListener("click", shareInvitation);
+document.getElementById("share-bar-button").addEventListener("click", shareInvitation);
 
 document.getElementById("copy-button").addEventListener("click", async () => {
   const input = document.getElementById("invite-link");

@@ -39,7 +39,7 @@ for (const event of expected) {
     assert.ok(article[0].includes(event.address));
     const datetime = article[1].match(/datetime="([^"]+)"/)[1];
     assert.equal(utcStamp(datetime), event.start);
-    assert.ok(html.includes(`name="performance" value="${event.id}"`));
+    assert.ok(article[0].includes(`data-event="${event.id}"`));
 
     const raw = await readFile(new URL(`${event.id}.ics`, root), "utf8");
     const unfolded = raw.replace(/\r?\n[ \t]/g, "");
@@ -84,8 +84,20 @@ test("published link, social preview, and local resources resolve", async () => 
   for (const path of ["invitation.js", "styles.css", "assets/preview.jpg"]) {
     assert.ok((await stat(new URL(path, root))).size > 0);
   }
-  for (const id of ["calendar-button", "directions-button"]) {
+  for (const id of ["performances-button", "share-bar-button"]) {
     assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1);
+  }
+});
+
+test("card actions skip performance and location questions", () => {
+  assert.ok(!html.includes('id="calendar-choices"'));
+  assert.ok(!html.includes('id="directions-dialog"'));
+  assert.ok(html.includes('href="#performances" id="performances-button"'));
+  assert.ok(html.includes('href="#share-title" id="share-bar-button"'));
+  for (const event of expected) {
+    const article = html.match(new RegExp(`<article[^>]+id="${event.id}"[^>]*>([\\s\\S]*?)</article>`))[0];
+    const mapHref = article.match(/href="([^"]+)" class="device-directions"/)[1].replaceAll("&amp;", "&");
+    assert.equal(new URL(mapHref).searchParams.get("destination"), event.address);
   }
 });
 

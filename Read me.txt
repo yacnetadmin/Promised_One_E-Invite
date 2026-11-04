@@ -20,8 +20,8 @@ assets/hero-source.png is the supplied hero source. Its optimized hero.webp disp
 The social preview is generated from the hero image, preserving the full composition with blue side padding.
 assets/subhero-source.png is the supplied story panel, placed directly against the hero with no gap.
 Three performances / Two locations appears below the story panel, followed by dates and addresses. The story panel has no buttons.
-The fixed bottom Calendar and Directions controls and per-performance links provide the interactive controls. Calendar descriptions retain the childcare registration URL.
-The old combined invitation is no longer displayed. Calendar and Directions still open the same accessible choosers.
+The fixed bottom bar offers Choose a performance (scroll to the cards) and Share invitation (native sharing or copy-link fallback).
+The old combined invitation is no longer displayed. Calendar descriptions retain the childcare registration URL.
 The floating hero title drifts up to 14 pixels relative to the image on scroll. Reduced-motion preferences disable the effect, including preference changes while the page is open.
 To regenerate the optimized artwork and social preview after editing either source PNG:
   npm ci
@@ -30,10 +30,11 @@ Commit generated assets with the source changes. Each mobile artwork image must 
 Run the consistency checks with npm test. No production dependencies are required.
 
 CALENDAR AND DIRECTIONS
-Calendar opens an accessible chooser for all three performances; a card's calendar link preselects that performance.
+A card's calendar link opens only the Google Calendar / Apple / Outlook options for that specific performance, with its date, time, and location displayed. There is no repeat performance question.
 Google Calendar links and Apple / Outlook .ics files use the matching location and UTC time.
-With JavaScript disabled, the three cards link directly to their .ics files and the bottom actions have fallback sections.
-Directions opens a two-location chooser. Apple devices default to Apple Maps; other devices default to Google Maps. Both services are explicitly available in the chooser.
+With JavaScript disabled, cards link directly to their .ics files, directions open Google Maps, and bottom links scroll to performances or sharing instructions.
+Directions opens the card's location directly in Apple Maps on Apple devices and Google Maps elsewhere, with no location question.
+Existing #calendar and #directions links now scroll to the performance cards when JavaScript is enabled.
 App launch and calendar imports depend on browser, installed apps, and device settings.
 
 SHARING
