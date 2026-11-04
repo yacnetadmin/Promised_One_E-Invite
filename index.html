@@ -24,14 +24,25 @@
   <main>
     <header class="welcome">
       <p class="eyebrow">You're invited</p>
-      <h1>The Promised One</h1>
-      <p class="subtitle">A Christmas story to experience together.</p>
+      <h1 class="sr-only">The Promised One</h1>
+      <nav class="header-links" aria-label="Explore the invitation">
+        <a href="#performances">Showtimes</a>
+        <a href="#share-title">Share invite</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <img src="assets/hero.webp" width="552" height="432" fetchpriority="high" alt="The Promised One: a Christmas illustration of baby Jesus in a manger, a shepherd, a child, and a sheep beneath a star.">
+      <h2 id="hero-title">A Narrative Christmas Experience</h2>
+    </section>
+
+    <section class="schedule-overview" aria-label="Performance summary">
       <p class="locations">Three performances <span aria-hidden="true">&middot;</span> Two locations</p>
-      <div class="schedule-summary" aria-label="Performance summary">
+      <div class="schedule-summary">
         <a href="#york-afternoon">York &middot; Dec. 5 &middot; 2 PM &amp; 7 PM</a>
         <a href="#spring-grove">Spring Grove &middot; Dec. 12 &middot; 3 PM</a>
       </div>
-    </header>
+    </section>
 
     <div class="invitation-layout">
       <section id="performances" class="performances" aria-labelledby="performances-title">
@@ -75,7 +86,7 @@
       <section class="story" aria-labelledby="story-title">
         <figure class="artwork">
           <div class="artwork-image">
-          <img src="assets/invitation.webp" width="1056" height="1632" fetchpriority="high" alt="The Promised One illustrated invitation. Every story has a beginning. Discover how ancient Bible stories lead to the birth of Jesus. December 5 at 2 PM and 7 PM in York; December 12 at 3 PM in Spring Grove.">
+          <img src="assets/invitation.webp" width="1056" height="1632" loading="lazy" alt="The Promised One illustrated invitation. Every story has a beginning. Discover how ancient Bible stories lead to the birth of Jesus. December 5 at 2 PM and 7 PM in York; December 12 at 3 PM in Spring Grove.">
           <a id="Register" class="artwork-action artwork-register" href="https://yafc.churchcenter.com/people/forms/1358593" target="_blank" rel="noopener noreferrer" aria-label="Register for childcare"></a>
           <a id="Calendar" class="artwork-action artwork-calendar" href="#calendar" aria-label="Choose a performance to add to your calendar"></a>
           <a id="Directions" class="artwork-action artwork-directions" href="#directions" aria-label="Choose a location for directions"></a>

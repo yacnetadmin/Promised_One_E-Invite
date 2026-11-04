@@ -83,3 +83,16 @@ test("published link, social preview, and local resources resolve", async () => 
     assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1);
   }
 });
+
+test("hero uses optimized artwork with accessible floating text and a compact header", async () => {
+  const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
+  assert.ok(hero.includes('src="assets/hero.webp"'));
+  assert.ok(hero.includes('width="552" height="432"'));
+  assert.ok(hero.includes('fetchpriority="high"'));
+  assert.ok(hero.includes('<h2 id="hero-title">A Narrative Christmas Experience</h2>'));
+  assert.ok(html.includes('class="header-links" aria-label="Explore the invitation"'));
+  assert.ok(html.includes('loading="lazy"'));
+  assert.ok((await stat(new URL("assets/hero.webp", root))).size <= 150_000);
+  const heroImage = await readFile(new URL("assets/hero.webp", root));
+  assert.equal(heroImage.toString("ascii", 8, 12), "WEBP");
+});

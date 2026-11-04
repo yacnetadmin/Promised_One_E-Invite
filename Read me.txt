@@ -15,6 +15,9 @@ Preserve filenames and relative paths. The original invitation.svg is the editab
 GitHub Pages should publish the main branch, / (root). The repository LICENSE is preserved.
 
 ARTWORK
+The compact blue You're Invited header sits above the hero image, with Showtimes and Share invite navigation.
+assets/hero-source.png is the supplied hero source. Its optimized hero.webp displays the full illustration with A Narrative Christmas Experience overlaid as accessible HTML text.
+The social preview is generated from the hero image, preserving the full composition with blue side padding.
 The updated artwork includes both York and Spring Grove performances, matching the page's visible schedule and artwork caption.
 The Calendar, Directions, and Register hotspots match the current SVG icons. If their positions change in the artwork, update the percentages in styles.css.
 To regenerate the optimized artwork and social preview after editing invitation.svg:
