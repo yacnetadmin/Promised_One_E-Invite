@@ -51,11 +51,10 @@ h3 { font-size: 1.05rem; line-height: 1.4; }
 .artwork img { display: block; width: 100%; height: auto; border-radius: 12px; }
 .artwork figcaption { margin-top: 9px; color: var(--muted); font-size: .75rem; }
 .artwork-action { position: absolute; width: 12.17%; min-width: 44px; aspect-ratio: 1; min-height: 44px; border-radius: 8px; }
-/* Match the three icon positions in the original 528 x 816 SVG. */
-.artwork-register { left: 8.22%; }
-.artwork-calendar { left: 27.76%; }
-.artwork-directions { left: 47.3%; }
-.artwork-action { top: 89.8%; }
+/* Match the three icon positions in the current 528 x 816 SVG. */
+.artwork-register { left: 8.22%; top: 89.82%; }
+.artwork-calendar { left: 24.96%; top: 89.93%; }
+.artwork-directions { left: 42.26%; top: 89.69%; }
 .artwork-action:hover { background: #fff3; }
 .story-copy { padding: 26px 4px; }
 .story-copy > p:not(.eyebrow) { margin-top: 15px; }

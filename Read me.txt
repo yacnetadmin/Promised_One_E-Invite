@@ -15,8 +15,8 @@ Preserve filenames and relative paths. The original invitation.svg is the editab
 GitHub Pages should publish the main branch, / (root). The repository LICENSE is preserved.
 
 ARTWORK
-The original artwork mentions only the York performances. The page's visible schedule and artwork caption explicitly include Spring Grove.
-The Calendar, Directions, and Register hotspots match the original SVG icons. If their positions change in the artwork, update the percentages in styles.css.
+The updated artwork includes both York and Spring Grove performances, matching the page's visible schedule and artwork caption.
+The Calendar, Directions, and Register hotspots match the current SVG icons. If their positions change in the artwork, update the percentages in styles.css.
 To regenerate the optimized artwork and social preview after editing invitation.svg:
   npm ci
   npm run build
