@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//York Alliance Church//The Promised One//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:promised-one-2026-york-afternoon@yafc.churchcenter.com
+DTSTAMP:20261104T210158Z
+DTSTART:20261205T190000Z
+DTEND:20261205T210000Z
+SUMMARY:The Promised One
+LOCATION:501 Rathton Road\, York\, PA 17402
+DESCRIPTION:Songs\, dramatic readings\, and interactive storytelling for t
+ he whole family. Light refreshments afterward. Childcare registration: ht
+ tps://yafc.churchcenter.com/people/forms/1358593
+END:VEVENT
+END:VCALENDAR

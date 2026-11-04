@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//York Alliance Church//The Promised One//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:promised-one-2026-spring-grove@yafc.churchcenter.com
+DTSTAMP:20261104T210158Z
+DTSTART:20261212T200000Z
+DTEND:20261212T220000Z
+SUMMARY:The Promised One
+LOCATION:1472 Roths Church Road\, Spring Grove\, PA 17362
+DESCRIPTION:Songs\, dramatic readings\, and interactive storytelling for t
+ he whole family. Light refreshments afterward. Childcare registration: ht
+ tps://yafc.churchcenter.com/people/forms/1358593
+END:VEVENT
+END:VCALENDAR

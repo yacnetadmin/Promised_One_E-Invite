@@ -1,0 +1,85 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFile, stat } from "node:fs/promises";
+
+const root = new URL("../", import.meta.url);
+const html = await readFile(new URL("index.html", root), "utf8");
+const expected = [
+  {
+    id: "york-afternoon",
+    start: "20261205T190000Z",
+    end: "20261205T210000Z",
+    address: "501 Rathton Road, York, PA 17402"
+  },
+  {
+    id: "york-evening",
+    start: "20261206T000000Z",
+    end: "20261206T020000Z",
+    address: "501 Rathton Road, York, PA 17402"
+  },
+  {
+    id: "spring-grove",
+    start: "20261212T200000Z",
+    end: "20261212T220000Z",
+    address: "1472 Roths Church Road, Spring Grove, PA 17362"
+  }
+];
+
+function utcStamp(value) {
+  return new Date(value).toISOString().replace(/[-:]/g, "").replace(".000", "");
+}
+
+for (const event of expected) {
+  test(`${event.id}: visible time, calendar chooser data, and ICS agree`, async () => {
+    const article = html.match(new RegExp(`<article[^>]+id="${event.id}"[^>]*>([\\s\\S]*?)</article>`));
+    assert.ok(article, "Performance must be visible without JavaScript");
+    assert.ok(article[0].includes(`data-start="${event.start}"`));
+    assert.ok(article[0].includes(`data-end="${event.end}"`));
+    assert.ok(article[0].includes(`data-calendar="${event.id}.ics"`));
+    assert.ok(article[0].includes(event.address));
+    const datetime = article[1].match(/datetime="([^"]+)"/)[1];
+    assert.equal(utcStamp(datetime), event.start);
+    assert.ok(html.includes(`name="performance" value="${event.id}"`));
+
+    const raw = await readFile(new URL(`${event.id}.ics`, root), "utf8");
+    const unfolded = raw.replace(/\r?\n[ \t]/g, "");
+    assert.ok(unfolded.includes(`DTSTART:${event.start}`));
+    assert.ok(unfolded.includes(`DTEND:${event.end}`));
+    assert.ok(unfolded.includes(`LOCATION:${event.address.replaceAll(",", "\\,")}`));
+    assert.ok(unfolded.includes("https://yafc.churchcenter.com/people/forms/1358593"));
+    assert.equal((unfolded.match(/BEGIN:VEVENT/g) || []).length, 1);
+    assert.ok(!/(?<!\r)\n/.test(raw), "ICS must use CRLF line endings");
+    for (const line of raw.split("\r\n")) {
+      assert.ok(Buffer.byteLength(line) <= 75, "ICS lines must be folded at 75 octets");
+    }
+  });
+}
+
+test("calendar identifiers are unique", async () => {
+  const uids = await Promise.all(expected.map(async event => {
+    const ics = await readFile(new URL(`${event.id}.ics`, root), "utf8");
+    return ics.match(/^UID:(.+)$/m)[1].trim();
+  }));
+  assert.equal(new Set(uids).size, 3);
+});
+
+test("mobile artwork stays below 350 KB and HTML contains no embedded raster data", async () => {
+  assert.ok((await stat(new URL("assets/invitation.webp", root))).size <= 350_000);
+  assert.ok(Buffer.byteLength(html) < 25_000);
+  assert.ok(!html.includes("data:image/"));
+  const image = await readFile(new URL("assets/invitation.webp", root));
+  assert.equal(image.toString("ascii", 8, 12), "WEBP");
+});
+
+test("published link, social preview, and local resources resolve", async () => {
+  const canonical = html.match(/rel="canonical" href="([^"]+)"/)[1];
+  assert.equal(canonical, "https://yacnetadmin.github.io/Promised_One_E-Invite/");
+  assert.ok(html.includes(`property="og:url" content="${canonical}"`));
+  assert.ok(html.includes(`property="og:image" content="${canonical}assets/preview.jpg"`));
+  for (const path of ["invitation.js", "styles.css", "assets/preview.jpg"]) {
+    assert.ok((await stat(new URL(path, root))).size > 0);
+  }
+  for (const id of ["Calendar", "Directions", "Register"]) {
+    assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1);
+  }
+});

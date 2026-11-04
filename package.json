@@ -1,0 +1,13 @@
+{
+  "name": "promised-one-e-invite",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mobile-first invitation for The Promised One, December 2026.",
+  "scripts": {
+    "build": "node scripts/build-artwork.mjs",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
+}

@@ -1,0 +1,37 @@
+THE PROMISED ONE - E-INVITATION
+
+Share this page by text:
+https://yacnetadmin.github.io/Promised_One_E-Invite/
+
+PERFORMANCES (2026, Eastern Time)
+December 5, 2 PM and 7 PM: 501 Rathton Road, York, PA 17402.
+December 12, 3 PM: 1472 Roths Church Road, Spring Grove, PA 17362.
+Each calendar entry reserves two hours. Childcare uses the same registration link for all three performances.
+
+PREVIEW AND PUBLISH
+Open index.html in a browser to preview; no server or build is needed for the committed site.
+Publish index.html, styles.css, invitation.js, assets/, and all three .ics files together.
+Preserve filenames and relative paths. The original invitation.svg is the editable artwork source, not a mobile download.
+GitHub Pages should publish the main branch, / (root). The repository LICENSE is preserved.
+
+ARTWORK
+The original artwork mentions only the York performances. The page's visible schedule and artwork caption explicitly include Spring Grove.
+The Calendar, Directions, and Register hotspots match the original SVG icons. If their positions change in the artwork, update the percentages in styles.css.
+To regenerate the optimized artwork and social preview after editing invitation.svg:
+  npm ci
+  npm run build
+Commit both generated assets with the source changes. The mobile artwork must stay below 350 KB.
+Run the consistency checks with npm test. No production dependencies are required.
+
+CALENDAR AND DIRECTIONS
+Calendar opens an accessible chooser for all three performances; a card's calendar link preselects that performance.
+Google Calendar links and Apple / Outlook .ics files use the matching location and UTC time.
+With JavaScript disabled, the three cards link directly to their .ics files and the bottom actions have fallback sections.
+Directions opens a two-location chooser. Apple devices default to Apple Maps; other devices default to Google Maps. Both services are explicitly available in the chooser.
+App launch and calendar imports depend on browser, installed apps, and device settings.
+
+SHARING
+Share invitation opens the device share sheet where supported. Otherwise it exposes a copyable public link.
+If clipboard access fails, the selected link can be copied manually. No claim of success is shown on failure or cancellation.
+Social preview metadata uses the public GitHub Pages address. If hosting changes, update the canonical, Open Graph, and fallback input URLs in index.html, plus the matching test.
+Text-message preview display and caching are controlled by the recipient's messaging app.
