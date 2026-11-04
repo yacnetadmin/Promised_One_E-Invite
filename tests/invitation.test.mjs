@@ -101,6 +101,19 @@ test("card actions skip performance and location questions", () => {
   }
 });
 
+test("shared childcare panel follows performances and precedes sharing", () => {
+  const panel = html.match(/<section class="childcare-panel"[\s\S]*?<\/section>/)[0];
+  assert.ok(html.indexOf('id="spring-grove"') < html.indexOf(panel));
+  assert.ok(html.indexOf(panel) < html.indexOf('class="share-section"'));
+  assert.ok(panel.includes('aria-labelledby="childcare-title"'));
+  assert.ok(panel.includes("Bringing little ones?"));
+  assert.ok(panel.includes("<strong>1st grade and younger</strong>"));
+  assert.ok(panel.includes("Register for childcare"));
+  assert.ok(panel.includes('href="https://yafc.churchcenter.com/people/forms/1358593"'));
+  assert.ok(panel.includes('rel="noopener noreferrer"'));
+  assert.equal((html.match(/id="childcare-register"/g) || []).length, 1);
+});
+
 test("hero uses optimized artwork with accessible floating text and a compact header", async () => {
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
   assert.ok(hero.includes('src="assets/hero.webp"'));

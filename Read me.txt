@@ -7,6 +7,7 @@ PERFORMANCES (2026, Eastern Time)
 December 5, 2 PM and 7 PM: 501 Rathton Road, York, PA 17402.
 December 12, 3 PM: 1472 Roths Church Road, Spring Grove, PA 17362.
 Each calendar entry reserves two hours. Childcare uses the same registration link for all three performances.
+One shared Bringing little ones? panel follows the performance cards, before sharing. It states that childcare is for children in 1st grade and younger and links directly to the registration form. No popup or JavaScript is needed.
 
 PREVIEW AND PUBLISH
 Open index.html in a browser to preview; no server or build is needed for the committed site.

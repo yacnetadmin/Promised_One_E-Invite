@@ -55,6 +55,9 @@ h3 { font-size: 1.05rem; line-height: 1.4; }
 .button { display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-height: 48px; padding: 11px 17px; border: 1px solid var(--line); border-radius: 8px; background: var(--gold); color: var(--ink); font-size: .9rem; font-weight: 650; text-decoration: none; text-align: center; line-height: 1.4; }
 .button:hover { filter: brightness(.96); }
 .button.primary { background: var(--night); border-color: var(--night); color: var(--paper); }
+.childcare-panel { margin-bottom: 28px; padding: 24px 20px; border: 1px solid var(--line); border-radius: 12px; background: #f4eddd; }
+.childcare-panel > p:not(.eyebrow) { margin-top: 14px; max-width: 640px; }
+.childcare-panel .button { margin-top: 20px; }
 .share-section { margin: 0 16px; padding: 28px 4px; text-align: center; border-top: 1px solid var(--line); }
 .share-section > p:not(.eyebrow) { margin-top: 12px; }
 #share-button { margin-top: 20px; }
