@@ -63,17 +63,15 @@ test("calendar identifiers are unique", async () => {
   assert.equal(new Set(uids).size, 3);
 });
 
-test("story artwork stays below 150 KB and replaces the combined invitation", async () => {
-  assert.ok((await stat(new URL("assets/subhero.webp", root))).size <= 150_000);
+test("single common panel replaces the two previous artwork panels", () => {
   assert.ok(Buffer.byteLength(html) < 25_000);
   assert.ok(!html.includes("data:image/"));
   assert.ok(!html.includes("assets/invitation.webp"));
-  assert.match(html, /<section class="hero"[\s\S]*?<\/section>\s*<section class="subhero"/);
-  assert.ok(html.indexOf('class="subhero"') < html.indexOf('class="locations"'));
+  assert.ok(!html.includes('class="subhero"'));
+  assert.equal((html.match(/src="assets\/hero.webp"/g) || []).length, 1);
+  assert.ok(html.indexOf('class="hero"') < html.indexOf('class="locations"'));
   assert.ok(html.indexOf('class="locations"') < html.indexOf('id="performances"'));
   assert.ok(!html.includes("subhero-actions"));
-  const image = await readFile(new URL("assets/subhero.webp", root));
-  assert.equal(image.toString("ascii", 8, 12), "WEBP");
 });
 
 test("published link, social preview, and local resources resolve", async () => {
@@ -148,12 +146,11 @@ test("calendar options explain web and file behavior without forcing downloads o
 test("hero uses optimized artwork with accessible floating text and a compact header", async () => {
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
   assert.ok(hero.includes('src="assets/hero.webp"'));
-  assert.ok(hero.includes('width="552" height="432"'));
+  assert.ok(hero.includes('width="768" height="1187"'));
   assert.ok(hero.includes('fetchpriority="high"'));
   assert.ok(hero.includes('<h2 id="hero-title">A Narrative Christmas Experience</h2>'));
   assert.ok(html.includes('class="header-links" aria-label="Explore the invitation"'));
-  assert.ok(html.includes('loading="lazy"'));
-  assert.ok((await stat(new URL("assets/hero.webp", root))).size <= 150_000);
+  assert.ok((await stat(new URL("assets/hero.webp", root))).size <= 300_000);
   const heroImage = await readFile(new URL("assets/hero.webp", root));
   assert.equal(heroImage.toString("ascii", 8, 12), "WEBP");
 });
