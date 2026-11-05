@@ -87,6 +87,16 @@ document.querySelectorAll("dialog").forEach(dialog => {
 
 const appleDevice = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
 if (appleDevice) {
+  const icsLink = document.getElementById("ics-calendar");
+  const googleLink = document.getElementById("google-calendar");
+  icsLink.textContent = "Add to Apple Calendar";
+  icsLink.classList.add("primary");
+  googleLink.classList.remove("primary");
+  googleLink.before(icsLink);
+  document.getElementById("calendar-note").textContent =
+    "Start with Apple Calendar, or use Google Calendar in your browser. All times are Eastern, in 2026.";
+  document.getElementById("ics-calendar-help").textContent =
+    "Open the calendar file, then review and save the event in Calendar. If it downloads instead, open the .ics file from Downloads. Using Outlook? You can open the same file there.";
   document.querySelectorAll(".device-directions").forEach(link => {
     const destination = new URL(link.href).searchParams.get("destination");
     link.href = `https://maps.apple.com/?${new URLSearchParams({ daddr: destination, dirflg: "d" })}`;

@@ -33,6 +33,8 @@ Run the consistency checks with npm test. No production dependencies are require
 CALENDAR AND DIRECTIONS
 A card's calendar link opens only the Google Calendar / Apple / Outlook options for that specific performance, with its date, time, and location displayed. There is no repeat performance question.
 Google Calendar links and Apple / Outlook .ics files use the matching location and UTC time.
+On iPhone, iPad, and Mac, Add to Apple Calendar is the first, prominent option. It opens the event's HTTPS .ics file in the same tab, without forcing a download or a new browser tab. Actual import behavior depends on the device.
+Google Calendar is labeled (web), with a browser/sign-in explanation. Both options remain available; there is no forced app launch or calendar subscription.
 With JavaScript disabled, cards link directly to their .ics files, directions open Google Maps, and bottom links scroll to performances or sharing instructions.
 Directions opens the card's location directly in Apple Maps on Apple devices and Google Maps elsewhere, with no location question.
 Existing #calendar and #directions links now scroll to the performance cards when JavaScript is enabled.

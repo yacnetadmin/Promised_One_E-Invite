@@ -124,10 +124,11 @@
       <p id="selected-performance" class="selection-summary"></p>
       <p id="selected-address" class="small"></p>
       <div class="calendar-links">
-        <a id="google-calendar" class="button primary" target="_blank" rel="noopener noreferrer">Google Calendar</a>
-        <a id="ics-calendar" class="button">Apple / Outlook (.ics)</a>
+        <a id="google-calendar" class="button primary" target="_blank" rel="noopener noreferrer" aria-describedby="google-calendar-help">Google Calendar (web)</a>
+        <a id="ics-calendar" class="button" aria-describedby="ics-calendar-help">Apple Calendar / Outlook (.ics)</a>
       </div>
-      <p class="small">Apple Calendar or Outlook: open the downloaded .ics file to add this performance. Your device may ask which calendar app to use.</p>
+      <p id="ics-calendar-help" class="small">Open the calendar file, then review and save the event. If it downloads, open the .ics file from Downloads. Your device may ask which calendar app to use.</p>
+      <p id="google-calendar-help" class="small">Google Calendar opens in your browser and may ask you to sign in. It does not always open the Google Calendar app.</p>
     </div>
   </dialog>
 

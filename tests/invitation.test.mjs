@@ -114,6 +114,17 @@ test("shared childcare panel follows performances and precedes sharing", () => {
   assert.equal((html.match(/id="childcare-register"/g) || []).length, 1);
 });
 
+test("calendar options explain web and file behavior without forcing downloads or subscriptions", () => {
+  const google = html.match(/<a id="google-calendar"[^>]*>[^<]+<\/a>/)[0];
+  const ics = html.match(/<a id="ics-calendar"[^>]*>[^<]+<\/a>/)[0];
+  assert.ok(google.includes("Google Calendar (web)"));
+  assert.ok(google.includes('aria-describedby="google-calendar-help"'));
+  assert.ok(ics.includes('aria-describedby="ics-calendar-help"'));
+  assert.ok(!ics.includes("download"));
+  assert.ok(!ics.includes("target="));
+  assert.ok(!html.includes("webcal:"));
+});
+
 test("hero uses optimized artwork with accessible floating text and a compact header", async () => {
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
   assert.ok(hero.includes('src="assets/hero.webp"'));
