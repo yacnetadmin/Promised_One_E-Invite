@@ -40,7 +40,12 @@ function refreshSchedule() {
   document.querySelectorAll(
     ".performances > .eyebrow, .section-intro, .timezone, .duration-note, .childcare-panel, .share-section, .action-bar, .header-links, .no-script-panel"
   ).forEach(element => { element.hidden = finished; });
-  document.querySelector(".welcome .eyebrow").textContent = finished ? "Merry Christmas" : "An Invitation for You";
+  const greeting = document.querySelector(".welcome .eyebrow");
+  if (finished) {
+    greeting.textContent = "Merry Christmas";
+  } else {
+    greeting.replaceChildren("An Invitation", document.createElement("br"), "For You");
+  }
   if (expiredDialog || (focusedCard && !activeIds.has(focusedCard.id))) {
     document.getElementById("performances").focus({ preventScroll: true });
   }
