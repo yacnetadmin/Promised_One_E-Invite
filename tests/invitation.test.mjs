@@ -170,6 +170,94 @@ test("hero uses optimized artwork with accessible floating text and a compact he
   assert.equal(heroImage.toString("ascii", 8, 12), "WEBP");
 });
 
+test("custom analytics records actions without confusing failures with successful handoffs or copies", async () => {
+  const script = await readFile(new URL("invitation.js", root), "utf8");
+  const behavior = script.slice(script.indexOf("function trackInvitationEvent"), script.lastIndexOf("\nrefreshSchedule();"));
+  function setup({ share, clipboard, analytics = "enabled", active = true } = {}) {
+    const events = [];
+    const warnings = [];
+    const errors = [];
+    const elements = new Map();
+    let copies = 0;
+    function element(id) {
+      if (!elements.has(id)) elements.set(id, {
+        listeners: {},
+        addEventListener(type, callback) { this.listeners[type] = callback; },
+        focus() {},
+        select() {},
+        scrollIntoView() {}
+      });
+      return elements.get(id);
+    }
+    const window = {};
+    if (analytics !== "missing") window.plausible = name => {
+      if (analytics === "broken") throw new Error("Tracker unavailable");
+      events.push(name);
+    };
+    const navigator = {};
+    if (share) navigator.share = share;
+    if (clipboard) navigator.clipboard = {
+      async writeText(url) {
+        assert.equal(url, "https://example.test/");
+        await clipboard();
+        copies++;
+      }
+    };
+    runInNewContext(behavior, {
+      window, navigator, Error,
+      console: { warn: (...args) => warnings.push(args), error: (...args) => errors.push(args) },
+      document: { getElementById: element },
+      refreshSchedule() {},
+      remainingPerformances: active ? [{ id: "show", location: "York" }] : [],
+      cards: new Map([["show", { querySelector: () => ({ textContent: "December 5 at 2 PM" }) }]]),
+      inviteUrl: "https://example.test/"
+    });
+    return {
+      events, warnings, errors, elements,
+      copies: () => copies,
+      click: id => element(id).listeners.click({ preventDefault() {} })
+    };
+  }
+  for (const id of ["share-button", "share-header-button", "share-bar-button"]) {
+    const state = setup({ share: async () => {} });
+    await state.click(id);
+    assert.deepEqual(state.events, ["Share Tapped", "Share Handoff"]);
+  }
+  const cancelled = setup({ share: async () => { throw Object.assign(new Error("Cancelled"), { name: "AbortError" }); } });
+  await cancelled.click("share-button");
+  assert.deepEqual(cancelled.events, ["Share Tapped"]);
+  assert.equal(cancelled.errors.length, 0);
+  const failed = setup({ share: async () => { throw new Error("Share failed"); } });
+  await failed.click("share-button");
+  assert.deepEqual(failed.events, ["Share Tapped"]);
+  assert.equal(failed.elements.get("share-fallback").hidden, false);
+  const fallback = setup({ clipboard: async () => {} });
+  await fallback.click("share-button");
+  await fallback.click("copy-button");
+  assert.deepEqual(fallback.events, ["Share Tapped", "Link Copied"]);
+  assert.equal(fallback.copies(), 1);
+  for (const clipboard of [undefined, async () => { throw new Error("Copy denied"); }]) {
+    const state = setup({ clipboard });
+    await state.click("copy-button");
+    assert.deepEqual(state.events, []);
+  }
+  const childcare = setup();
+  await childcare.click("childcare-register");
+  assert.deepEqual(childcare.events, ["Childcare Link Clicked"]);
+  const ended = setup({ active: false });
+  await ended.click("share-button");
+  assert.deepEqual(ended.events, []);
+  for (const analytics of ["missing", "broken"]) {
+    const state = setup({ analytics, share: async () => {}, clipboard: async () => {} });
+    await state.click("share-button");
+    await state.click("copy-button");
+    await state.click("childcare-register");
+    assert.equal(state.elements.get("share-status").textContent, "Link copied! Paste it into a text message.");
+    assert.equal(state.copies(), 1);
+    assert.equal(state.warnings.length, analytics === "broken" ? 4 : 0);
+  }
+});
+
 test("parallax visibly tracks scrolling, stays bounded, and respects motion preferences", async () => {
   const script = await readFile(new URL("invitation.js", root), "utf8");
   const parallax = script.slice(script.indexOf('const hero ='), script.indexOf('function choosePerformance'));

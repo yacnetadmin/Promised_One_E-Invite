@@ -157,6 +157,18 @@ function handleHash() {
 window.addEventListener("hashchange", handleHash);
 handleHash();
 
+function trackInvitationEvent(name) {
+  try {
+    window.plausible?.(name);
+  } catch (error) {
+    console.warn("Could not record invitation analytics:", error);
+  }
+}
+
+document.getElementById("childcare-register").addEventListener("click", () => {
+  trackInvitationEvent("Childcare Link Clicked");
+});
+
 const shareButton = document.getElementById("share-button");
 const shareFallback = document.getElementById("share-fallback");
 const shareStatus = document.getElementById("share-status");
@@ -175,6 +187,7 @@ async function shareInvitation(event) {
     document.getElementById("performances").focus();
     return;
   }
+  trackInvitationEvent("Share Tapped");
   if (!navigator.share) {
     showShareFallback("Copy the invitation link below and paste it into a text message.");
     document.getElementById("share-fallback").scrollIntoView({ block: "center" });
@@ -190,6 +203,7 @@ async function shareInvitation(event) {
       }).join("; ")}.`,
       url: inviteUrl
     });
+    trackInvitationEvent("Share Handoff");
     shareStatus.textContent = "Invitation shared.";
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") return;
@@ -212,6 +226,7 @@ document.getElementById("copy-button").addEventListener("click", async () => {
   }
   try {
     await navigator.clipboard.writeText(inviteUrl);
+    trackInvitationEvent("Link Copied");
     shareStatus.textContent = "Link copied! Paste it into a text message.";
   } catch (error) {
     console.error("Could not copy the invitation link:", error);
