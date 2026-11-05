@@ -31,6 +31,7 @@ h3 { font-size: 1.05rem; line-height: 1.4; }
 .header-links { display: flex; gap: 16px; }
 .header-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: .8rem; text-decoration: none; }
 .header-links a:hover { text-decoration: underline; }
+.artwork-stage { background: var(--night); }
 .hero { position: relative; container-type: inline-size; max-width: 840px; margin: auto; background: var(--night); }
 .hero img { display: block; width: 100%; height: auto; }
 .hero h2 { position: absolute; left: 36%; top: 55%; width: 24%; color: #fffaf1; text-align: center; font-size: clamp(.9rem, 3.2cqw, 1.8rem); line-height: 1.18; text-shadow: 0 2px 4px #171e39, 0 0 12px #171e39; }

@@ -21,6 +21,7 @@ The compact blue You're Invited header sits above the hero image, with Showtimes
 assets/hero-source.png is the supplied hero source. Its optimized hero.webp displays the full illustration with A Narrative Christmas Experience overlaid as accessible HTML text.
 The social preview is generated from the hero image, preserving the full composition with blue side padding.
 assets/subhero-source.png is the supplied story panel, placed directly against the hero with no gap.
+Both images sit on a dark blue artwork-stage background, matching the page surround on desktop without stretching or cropping the artwork.
 Three performances / Two locations appears below the story panel, followed by dates and addresses. The story panel has no buttons.
 The fixed bottom bar offers Choose a performance (scroll to the cards) and Share invitation (native sharing or copy-link fallback).
 The old combined invitation is no longer displayed. Calendar descriptions retain the childcare registration URL.
