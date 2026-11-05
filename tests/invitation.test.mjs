@@ -121,6 +121,19 @@ test("shared childcare panel follows performances and precedes sharing", () => {
   assert.equal((html.match(/id="childcare-register"/g) || []).length, 1);
 });
 
+test("footer links to all four York Alliance family churches", () => {
+  const footer = html.match(/<footer>[\s\S]*?<\/footer>/)[0];
+  assert.ok(footer.includes('aria-label="York Alliance Family of Churches"'));
+  for (const url of [
+    "https://yorkalliance.org/",
+    "https://springgrovealliance.org/",
+    "https://stewartstownalliance.org/",
+    "http://valleyviewcma.org/"
+  ]) {
+    assert.ok(footer.includes(`href="${url}" target="_blank" rel="noopener noreferrer"`));
+  }
+});
+
 test("calendar options explain web and file behavior without forcing downloads or subscriptions", () => {
   const google = html.match(/<a id="google-calendar"[^>]*>[^<]+<\/a>/)[0];
   const ics = html.match(/<a id="ics-calendar"[^>]*>[^<]+<\/a>/)[0];
