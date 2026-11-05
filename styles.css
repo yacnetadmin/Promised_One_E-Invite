@@ -45,8 +45,6 @@ h3 { font-size: 1.05rem; line-height: 1.4; }
 .performance-top { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-bottom: 9px; }
 .venue { font-weight: 750; font-size: .9rem; }
 .time-label { font-size: .7rem; font-weight: 650; color: #665735; background: #f4eddd; padding: 3px 8px; border-radius: 20px; }
-.spring-grove { border-color: #9c789e; background: #f7f0f8; }
-.spring-grove .time-label { background: #eaddf0; color: #593e61; }
 .show-time { display: block; font-size: 1.8rem; font-weight: 650; margin: 1px 0 3px; }
 .address { font-size: .87rem; color: var(--muted); }
 .card-actions { display: flex; flex-wrap: wrap; gap: 0 18px; margin-top: 8px; }
