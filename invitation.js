@@ -199,6 +199,7 @@ async function shareInvitation(event) {
 }
 
 shareButton.addEventListener("click", shareInvitation);
+document.getElementById("share-header-button").addEventListener("click", shareInvitation);
 document.getElementById("share-bar-button").addEventListener("click", shareInvitation);
 
 document.getElementById("copy-button").addEventListener("click", async () => {
