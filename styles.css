@@ -88,7 +88,7 @@ body:has(dialog[open]) { overflow: hidden; }
 @media (min-width: 760px) {
   .welcome { padding-inline: 36px; }
   .invitation-layout { padding: 36px 36px 0; }
-  .performances { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .performances { display: grid; grid-template-columns: repeat(var(--performance-columns, 3), minmax(0, 1fr)); gap: 12px; }
   .performances > :not(.performance) { grid-column: 1 / -1; }
   .performance { padding: 20px 20px 10px; }
   .share-section { margin-inline: 36px; }

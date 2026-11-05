@@ -6,6 +6,45 @@ const cards = new Map(
 );
 const inviteUrl = document.querySelector('link[rel="canonical"]').href;
 const childcareUrl = "https://yafc.churchcenter.com/people/forms/1358593";
+const scheduleEvents = Array.from(cards.values()).map(card => ({
+  id: card.id,
+  end: card.dataset.end,
+  location: card.querySelector(".venue").textContent
+}));
+let remainingPerformances = [];
+let selectedPerformanceId;
+let scheduleSignature;
+
+function refreshSchedule() {
+  remainingPerformances = getRemainingPerformances(scheduleEvents, Date.now());
+  const signature = remainingPerformances.map(event => event.id).join(",");
+  if (signature === scheduleSignature) return;
+  scheduleSignature = signature;
+  const activeIds = new Set(remainingPerformances.map(event => event.id));
+  const focusedCard = document.activeElement.closest(".performance");
+  const expiredDialog = calendarDialog.open && !activeIds.has(selectedPerformanceId);
+  if (expiredDialog) calendarDialog.close();
+  cards.forEach((card, id) => { card.hidden = !activeIds.has(id); });
+  const finished = remainingPerformances.length === 0;
+  const words = ["No", "One", "Two", "Three"];
+  const count = remainingPerformances.length;
+  const locations = new Set(remainingPerformances.map(event => event.location)).size;
+  document.querySelector(".locations").textContent = finished
+    ? "Thank you for joining us"
+    : `${words[count]} performance${count === 1 ? "" : "s"}${count < scheduleEvents.length ? " remaining" : ""} \u00b7 ${words[locations]} location${locations === 1 ? "" : "s"}`;
+  document.querySelector(".performances").style.setProperty("--performance-columns", Math.max(1, count));
+  document.getElementById("performances-title").textContent = finished
+    ? "Thank you for being part of the story."
+    : "Find your performance";
+  document.getElementById("finished-message").hidden = !finished;
+  document.querySelectorAll(
+    ".performances > .eyebrow, .section-intro, .timezone, .duration-note, .childcare-panel, .share-section, .action-bar, .header-links, .no-script-panel"
+  ).forEach(element => { element.hidden = finished; });
+  document.querySelector(".welcome .eyebrow").textContent = finished ? "Merry Christmas" : "You're invited";
+  if (expiredDialog || (focusedCard && !activeIds.has(focusedCard.id))) {
+    document.getElementById("performances").focus({ preventScroll: true });
+  }
+}
 
 const hero = document.querySelector(".hero");
 const heroTitle = document.getElementById("hero-title");
@@ -61,6 +100,12 @@ function choosePerformance(id) {
 
 function openCalendar(event, selectedId) {
   if (event) event.preventDefault();
+  refreshSchedule();
+  if (!remainingPerformances.some(performance => performance.id === selectedId)) {
+    document.getElementById("performances").focus();
+    return;
+  }
+  selectedPerformanceId = selectedId;
   choosePerformance(selectedId);
   if (!calendarDialog.open) calendarDialog.showModal();
   document.getElementById("calendar-title").focus();
@@ -125,6 +170,11 @@ function showShareFallback(message) {
 shareButton.hidden = false;
 async function shareInvitation(event) {
   event.preventDefault();
+  refreshSchedule();
+  if (remainingPerformances.length === 0) {
+    document.getElementById("performances").focus();
+    return;
+  }
   if (!navigator.share) {
     showShareFallback("Copy the invitation link below and paste it into a text message.");
     document.getElementById("share-fallback").scrollIntoView({ block: "center" });
@@ -133,7 +183,11 @@ async function shareInvitation(event) {
   try {
     await navigator.share({
       title: "You're invited to The Promised One",
-      text: "Join us for The Promised One! December 5 at 2 PM or 7 PM in York, or December 12 at 3 PM in Spring Grove.",
+      text: `Join us for The Promised One! ${remainingPerformances.map(performance => {
+        const card = cards.get(performance.id);
+        const time = card.querySelector("time").textContent.trim().replace(/\s+/g, " ");
+        return `${time} in ${performance.location}`;
+      }).join("; ")}.`,
       url: inviteUrl
     });
     shareStatus.textContent = "Invitation shared.";
@@ -164,4 +218,12 @@ document.getElementById("copy-button").addEventListener("click", async () => {
     input.select();
     shareStatus.textContent = "The browser couldn't copy the link. Copy the selected link manually.";
   }
+});
+
+refreshSchedule();
+setInterval(refreshSchedule, 1000);
+window.addEventListener("pageshow", refreshSchedule);
+window.addEventListener("focus", refreshSchedule);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) refreshSchedule();
 });

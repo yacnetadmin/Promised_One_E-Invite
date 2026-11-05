@@ -81,12 +81,19 @@ test("published link, social preview, and local resources resolve", async () => 
   assert.equal(canonical, "https://yacnetadmin.github.io/Promised_One_E-Invite/");
   assert.ok(html.includes(`property="og:url" content="${canonical}"`));
   assert.ok(html.includes(`property="og:image" content="${canonical}assets/preview.jpg"`));
-  for (const path of ["invitation.js", "styles.css", "assets/preview.jpg"]) {
+  for (const path of ["schedule.js", "invitation.js", "styles.css", "assets/preview.jpg"]) {
     assert.ok((await stat(new URL(path, root))).size > 0);
   }
   for (const id of ["performances-button", "share-bar-button"]) {
     assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1);
   }
+});
+
+test("schedule helper loads before invitation behavior and provides an ended state", () => {
+  assert.ok(html.indexOf('src="schedule.js" defer') < html.indexOf('src="invitation.js" defer'));
+  assert.ok(html.includes('id="finished-message" hidden'));
+  assert.ok(html.includes('class="locations" aria-live="polite"'));
+  assert.ok(html.includes("Enable JavaScript to automatically hide performances that have ended."));
 });
 
 test("card actions skip performance and location questions", () => {

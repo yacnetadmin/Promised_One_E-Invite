@@ -17,6 +17,7 @@
   <meta property="og:image:alt" content="The Promised One Christmas illustration">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="styles.css">
+  <script src="schedule.js" defer></script>
   <script src="invitation.js" defer></script>
 </head>
 <body>
@@ -41,11 +42,11 @@
     </section>
 
     <section class="schedule-overview" aria-label="Performance summary">
-      <p class="locations">Three performances <span aria-hidden="true">&middot;</span> Two locations</p>
+      <p class="locations" aria-live="polite">Three performances <span aria-hidden="true">&middot;</span> Two locations</p>
     </section>
 
     <div class="invitation-layout">
-      <section id="performances" class="performances" aria-labelledby="performances-title">
+      <section id="performances" class="performances" aria-labelledby="performances-title" tabindex="-1">
         <p class="eyebrow">Make it part of your Christmas</p>
         <h2 id="performances-title">Find your performance</h2>
         <p class="section-intro">Choose the time and place that work for you.</p>
@@ -81,6 +82,8 @@
           </div>
         </article>
         <p class="duration-note">Calendar entries reserve two hours for each performance.</p>
+        <p id="finished-message" hidden>Thank you for sharing the Christmas story with us. All performances of The Promised One have ended. We wish you a wonderful Christmas!</p>
+        <noscript><p class="small">This is the original 2026 schedule. Enable JavaScript to automatically hide performances that have ended.</p></noscript>
       </section>
 
       <section class="childcare-panel" aria-labelledby="childcare-title">

@@ -12,6 +12,7 @@ One shared Bringing little ones? panel follows the performance cards, before sha
 PREVIEW AND PUBLISH
 Open index.html in a browser to preview; no server or build is needed for the committed site.
 Publish index.html, styles.css, invitation.js, assets/, and all three .ics files together.
+Include schedule.js alongside invitation.js.
 Preserve filenames and relative paths. invitation.svg is retained as archival artwork, not displayed or built by the current page.
 GitHub Pages should publish the main branch, / (root). The repository LICENSE is preserved.
 
@@ -31,6 +32,11 @@ Commit generated assets with the source changes. Each mobile artwork image must 
 Run the consistency checks with npm test. No production dependencies are required.
 
 CALENDAR AND DIRECTIONS
+Cards automatically disappear at their calendar end time: December 5 at 4 PM and 9 PM Eastern, and December 12 at 5 PM Eastern.
+Remaining performance/location counts, desktop columns, and shared invitation text update too. An open calendar dialog closes if its performance expires.
+After the final performance, the schedule shows a Christmas thank-you message and hides calendar, directions, childcare, sharing, and event navigation actions.
+Checks run on page load, every second while the page is running, and when returning to the page. Timing uses the visitor's device clock and UTC end times, independent of their timezone.
+With JavaScript disabled, the original schedule remains visible with an explanatory note. Social/message previews and the artwork do not automatically change.
 A card's calendar link opens only the Google Calendar / Apple / Outlook options for that specific performance, with its date, time, and location displayed. There is no repeat performance question.
 Google Calendar links and Apple / Outlook .ics files use the matching location and UTC time.
 On iPhone, iPad, and Mac, Add to Apple Calendar is the first, prominent option. It opens the event's HTTPS .ics file in the same tab, without forcing a download or a new browser tab. Actual import behavior depends on the device.
