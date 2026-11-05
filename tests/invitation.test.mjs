@@ -170,6 +170,43 @@ test("hero uses optimized artwork with accessible floating text and a compact he
   assert.equal(heroImage.toString("ascii", 8, 12), "WEBP");
 });
 
+test("calendar analytics distinguishes performances and excludes expired events", async () => {
+  const script = await readFile(new URL("invitation.js", root), "utf8");
+  const behavior = script.slice(script.indexOf("const calendarTrackingEvents"), script.indexOf('document.querySelectorAll(".save-performance")'));
+  const events = [];
+  const chosen = [];
+  const focused = [];
+  const context = {
+    remainingPerformances: expected.map(event => ({ id: event.id })),
+    selectedPerformanceId: undefined,
+    refreshSchedule() {},
+    choosePerformance: id => chosen.push(id),
+    calendarDialog: { open: false, showModal() { this.open = true; } },
+    document: { getElementById: id => ({ focus: () => focused.push(id) }) },
+    trackInvitationEvent: name => events.push(name)
+  };
+  runInNewContext(behavior, context);
+  for (const event of expected) {
+    context.calendarDialog.open = false;
+    runInNewContext(`openCalendar({ preventDefault() {} }, "${event.id}");`, context);
+    assert.equal(context.calendarDialog.open, true);
+    assert.equal(context.selectedPerformanceId, event.id);
+  }
+  assert.deepEqual(events, [
+    "Calendar York Dec 5 2 PM",
+    "Calendar York Dec 5 7 PM",
+    "Calendar Spring Grove Dec 12 3 PM"
+  ]);
+  assert.deepEqual(chosen, expected.map(event => event.id));
+  assert.deepEqual(focused, ["calendar-title", "calendar-title", "calendar-title"]);
+  context.remainingPerformances = [];
+  context.calendarDialog.open = false;
+  runInNewContext('openCalendar(null, "york-afternoon");', context);
+  assert.equal(events.length, 3);
+  assert.equal(context.calendarDialog.open, false);
+  assert.equal(focused.at(-1), "performances");
+});
+
 test("custom analytics records actions without confusing failures with successful handoffs or copies", async () => {
   const script = await readFile(new URL("invitation.js", root), "utf8");
   const behavior = script.slice(script.indexOf("function trackInvitationEvent"), script.lastIndexOf("\nrefreshSchedule();"));

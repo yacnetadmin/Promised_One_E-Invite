@@ -57,7 +57,9 @@ The head of index.html includes the site's Plausible tracking snippet for cookie
 View reports by signing in at https://plausible.io/ and selecting the invitation site.
 The tracker loads asynchronously; no Tag Manager, npm analytics package, or hosting/DNS change is needed.
 Custom events: Share Tapped (all three share controls), Share Handoff (navigator.share resolves), Link Copied (clipboard write succeeds), and Childcare Link Clicked (registration link opened).
-In Plausible site settings, open Goals, choose Add goal, select Custom event, and add each of those four names exactly as written.
+Performance calendar events: Calendar York Dec 5 2 PM, Calendar York Dec 5 7 PM, and Calendar Spring Grove Dec 12 3 PM.
+Each calendar event counts an active performance's Add to calendar action opening the options dialog, not a confirmed calendar save. Expired performances do not generate events.
+In Plausible site settings, open Goals, choose Add goal, select Custom event, and add each of those seven names exactly as written.
 Goals report visitors converting as well as total conversions; use total conversions to count repeated actions, not just unique visitors.
 Share handoffs do not confirm message delivery. Childcare clicks do not confirm completed registrations. Cancelled/failed shares do not count as handoffs; failed/manual copies do not count as successful copies.
 Only fixed event names are sent by the custom tracking code, without names, recipients, or message contents. Missing/blocked analytics never blocks invitation actions; synchronous tracking errors are logged as warnings.

@@ -98,6 +98,12 @@ function choosePerformance(id) {
   document.getElementById("selected-address").textContent = address;
 }
 
+const calendarTrackingEvents = {
+  "york-afternoon": "Calendar York Dec 5 2 PM",
+  "york-evening": "Calendar York Dec 5 7 PM",
+  "spring-grove": "Calendar Spring Grove Dec 12 3 PM"
+};
+
 function openCalendar(event, selectedId) {
   if (event) event.preventDefault();
   refreshSchedule();
@@ -109,6 +115,7 @@ function openCalendar(event, selectedId) {
   choosePerformance(selectedId);
   if (!calendarDialog.open) calendarDialog.showModal();
   document.getElementById("calendar-title").focus();
+  trackInvitationEvent(calendarTrackingEvents[selectedId]);
 }
 
 document.querySelectorAll(".save-performance").forEach(link => {
