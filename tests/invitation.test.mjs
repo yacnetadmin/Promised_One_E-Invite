@@ -88,6 +88,20 @@ test("published link, social preview, and local resources resolve", async () => 
   }
 });
 
+test("Plausible page-view tracking loads once asynchronously in the head", () => {
+  const head = html.match(/<head>[\s\S]*?<\/head>/)[0];
+  assert.equal((html.match(/src="https:\/\/plausible\.io\/js\/pa-4VSDVsuOmvQkDOwIGOItP\.js"/g) || []).length, 1);
+  assert.ok(head.includes('<script async src="https://plausible.io/js/pa-4VSDVsuOmvQkDOwIGOItP.js"></script>'));
+  const bootstrap = head.match(/<script>([\s\S]*?plausible\.init\(\)[\s\S]*?)<\/script>/)[1];
+  const context = {};
+  context.window = context;
+  runInNewContext(bootstrap, context);
+  assert.equal(typeof context.plausible, "function");
+  assert.deepEqual(Object.keys(context.plausible.o), []);
+  context.plausible("test-event");
+  assert.equal(context.plausible.q[0][0], "test-event");
+});
+
 test("schedule helper loads before invitation behavior and provides an ended state", () => {
   assert.ok(html.indexOf('src="schedule.js" defer') < html.indexOf('src="invitation.js" defer'));
   assert.ok(html.includes('id="finished-message" hidden'));

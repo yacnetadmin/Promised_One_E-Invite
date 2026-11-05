@@ -51,3 +51,10 @@ Share invitation opens the device share sheet where supported. Otherwise it expo
 If clipboard access fails, the selected link can be copied manually. No claim of success is shown on failure or cancellation.
 Social preview metadata uses the public GitHub Pages address. If hosting changes, update the canonical, Open Graph, and fallback input URLs in index.html, plus the matching test.
 Text-message preview display and caching are controlled by the recipient's messaging app.
+
+ANALYTICS
+The head of index.html includes the site's Plausible tracking snippet for cookie-free page-view analytics.
+View reports by signing in at https://plausible.io/ and selecting the invitation site.
+The tracker loads asynchronously; no Tag Manager, npm analytics package, or hosting/DNS change is needed.
+This installation does not yet send custom Share or Copy Link events.
+Local file previews and visitors blocking analytics may not appear in reports. Tracking begins with installation, not retroactively.
