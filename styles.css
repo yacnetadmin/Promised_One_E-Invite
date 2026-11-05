@@ -34,7 +34,8 @@ h3 { font-size: 1.05rem; line-height: 1.4; }
 .artwork-stage { background: var(--night); }
 .hero { position: relative; container-type: inline-size; max-width: 840px; margin: auto; background: var(--night); }
 .hero img { display: block; width: 100%; height: auto; }
-.hero h2 { position: absolute; left: 17%; top: 61%; width: 32%; color: #fffaf1; text-align: center; font-size: clamp(.9rem, 3.2cqw, 1.8rem); line-height: 1.18; text-shadow: 0 2px 4px #171e39, 0 0 12px #171e39; }
+.hero h2 { position: absolute; left: 9%; top: 61%; width: 48%; color: #fffaf1; text-align: center; font-size: clamp(.95rem, 4cqw, 1.95rem); line-height: 1.18; text-shadow: 0 2px 4px #171e39, 0 0 12px #171e39; }
+.hero h2 span { display: block; white-space: nowrap; }
 .schedule-overview { padding: 16px 16px 10px; text-align: center; background: var(--night); color: var(--paper); }
 .locations { display: inline-block; padding: 7px 15px; border: 1px solid #8e8691; border-radius: 30px; color: var(--gold); font-size: .85rem; }
 .invitation-layout { padding: 25px 16px 0; }

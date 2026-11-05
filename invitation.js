@@ -54,8 +54,8 @@ let parallaxFrame = 0;
 function updateParallax() {
   parallaxFrame = 0;
   const bounds = hero.getBoundingClientRect();
-  const progress = Math.max(0, Math.min(1, -bounds.top / bounds.height));
-  heroTitle.style.setProperty("--parallax-offset", `${progress * 14}px`);
+  const offset = Math.min(28, Math.max(0, -bounds.top) * .12);
+  heroTitle.style.setProperty("--parallax-offset", `${offset}px`);
 }
 
 function scheduleParallax() {

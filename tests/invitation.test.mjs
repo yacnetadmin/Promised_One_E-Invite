@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile, stat } from "node:fs/promises";
+import { runInNewContext } from "node:vm";
 
 const root = new URL("../", import.meta.url);
 const html = await readFile(new URL("index.html", root), "utf8");
@@ -148,9 +149,61 @@ test("hero uses optimized artwork with accessible floating text and a compact he
   assert.ok(hero.includes('src="assets/hero.webp"'));
   assert.ok(hero.includes('width="768" height="1187"'));
   assert.ok(hero.includes('fetchpriority="high"'));
-  assert.ok(hero.includes('<h2 id="hero-title">A Narrative Christmas Experience</h2>'));
+  assert.ok(hero.includes('<h2 id="hero-title"><span>A Narrative</span> <span>Christmas Experience</span></h2>'));
   assert.ok(html.includes('class="header-links" aria-label="Explore the invitation"'));
   assert.ok((await stat(new URL("assets/hero.webp", root))).size <= 300_000);
   const heroImage = await readFile(new URL("assets/hero.webp", root));
   assert.equal(heroImage.toString("ascii", 8, 12), "WEBP");
+});
+
+test("parallax visibly tracks scrolling, stays bounded, and respects motion preferences", async () => {
+  const script = await readFile(new URL("invitation.js", root), "utf8");
+  const parallax = script.slice(script.indexOf('const hero ='), script.indexOf('function choosePerformance'));
+  let top = 120;
+  let offset;
+  let frame;
+  let preferenceChanged;
+  const listeners = new Map();
+  const motion = {
+    matches: false,
+    addEventListener(type, callback) { preferenceChanged = callback; }
+  };
+  runInNewContext(parallax, {
+    document: {
+      querySelector: () => ({ getBoundingClientRect: () => ({ top }) }),
+      getElementById: () => ({
+        style: {
+          setProperty(name, value) { offset = value; },
+          removeProperty() { offset = undefined; }
+        }
+      })
+    },
+    window: {
+      matchMedia: () => motion,
+      addEventListener(type, callback) { listeners.set(type, callback); },
+      removeEventListener(type) { listeners.delete(type); }
+    },
+    requestAnimationFrame(callback) { frame = callback; return 1; },
+    cancelAnimationFrame() { frame = undefined; }
+  });
+  frame();
+  assert.equal(offset, "0px");
+  top = -100;
+  listeners.get("scroll")();
+  frame();
+  assert.equal(offset, "12px");
+  top = -1000;
+  listeners.get("resize")();
+  frame();
+  assert.equal(offset, "28px");
+  motion.matches = true;
+  preferenceChanged();
+  assert.equal(offset, undefined);
+  assert.equal(listeners.size, 0);
+  assert.equal(frame, undefined);
+  motion.matches = false;
+  preferenceChanged();
+  frame();
+  assert.equal(offset, "28px");
+  assert.ok(listeners.has("scroll"));
 });

@@ -24,7 +24,7 @@ The common panel sits on a dark blue artwork-stage background, matching the page
 Three performances / Two locations appears below the artwork, followed by dates and addresses. The artwork has no buttons.
 The fixed bottom bar offers Choose a performance (scroll to the cards) and Share invitation (native sharing or copy-link fallback).
 The old combined invitation is no longer displayed. Calendar descriptions retain the childcare registration URL.
-The floating hero title drifts up to 14 pixels relative to the image on scroll. Reduced-motion preferences disable the effect, including preference changes while the page is open.
+The floating hero title uses two lines: A Narrative / Christmas Experience. Its slightly larger text drifts 12 pixels per 100 pixels of artwork scroll, capped at 28 pixels so it stays clear of the illustration. Reduced-motion preferences disable the effect, including preference changes while the page is open.
 To regenerate the optimized artwork and social preview after editing the source PNG:
   npm ci
   npm run build
