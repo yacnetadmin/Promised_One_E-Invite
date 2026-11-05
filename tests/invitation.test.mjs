@@ -149,7 +149,7 @@ test("hero uses optimized artwork with accessible floating text and a compact he
   assert.ok(hero.includes('src="assets/hero.webp"'));
   assert.ok(hero.includes('width="768" height="1187"'));
   assert.ok(hero.includes('fetchpriority="high"'));
-  assert.ok(hero.includes('<h2 id="hero-title"><span>A Narrative</span> <span>Christmas Experience</span></h2>'));
+  assert.ok(hero.includes('<h2 id="hero-title"><span>A Narrative</span> <span>Christmas</span> <span>Experience</span></h2>'));
   assert.ok(html.includes('class="header-links" aria-label="Explore the invitation"'));
   assert.ok((await stat(new URL("assets/hero.webp", root))).size <= 300_000);
   const heroImage = await readFile(new URL("assets/hero.webp", root));
